@@ -1,15 +1,18 @@
 {
-  "name": "@editorjs/embed",
-  "version": "2.7.0",
+  "name": "editorjs-embed-control",
+  "version": "1.0.0",
   "keywords": [
     "codex editor",
     "embed",
     "editor.js",
     "editorjs"
   ],
-  "description": "Embed Tool for Editor.js",
+  "description": "Embed Tool for Editor.js with input field",
   "license": "MIT",
-  "repository": "https://github.com/editor-js/embed",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VolgaIgor/editorjs-embed-control.git"
+  },
   "files": [
     "dist"
   ],
@@ -29,10 +32,7 @@
     "lint:errors": "eslint src/ --ext .js --quiet",
     "lint:fix": "eslint src/ --ext .js --fix"
   },
-  "author": {
-    "name": "CodeX",
-    "email": "team@codex.so"
-  },
+  "author": "Igor Shuvalov «VolgaIgor» & CodeX",
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.23.2",
     "@babel/preset-env": "^7.23.2",
@@ -50,5 +50,12 @@
   },
   "dependencies": {
     "@codexteam/icons": "^0.3.0"
+  },
+  "bugs": {
+    "url": "https://github.com/VolgaIgor/editorjs-embed-control/issues"
+  },
+  "homepage": "https://github.com/VolgaIgor/editorjs-embed-control#readme",
+  "directories": {
+    "test": "test"
   }
 }
