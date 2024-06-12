@@ -10,7 +10,7 @@ export default {
     copyPublicDir: false,
     lib: {
       entry: path.resolve(__dirname, "src", "index.js"),
-      name: "Embed",
+      name: "EmbedControl",
       fileName: "embed",
     },
   },
