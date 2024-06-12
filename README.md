@@ -1,49 +1,48 @@
-![](https://badgen.net/badge/Editor.js/v2.0/blue)
-
-# Embed Tool
+# Embed Block Tool for Editor.js
 
 Provides Block tool for embedded content for the [Editor.js](https://editorjs.io).
-Tool uses Editor.js pasted patterns handling and inserts iframe with embedded content.
+
+Based on [editor-js/embed](https://github.com/editor-js/embed).
+
+## Preview
+![Preview image](https://github.com/VolgaIgor/editorjs-embed-control/raw/main/asset/screenshot.png)
 
 ## List of services supported
 
 > `service` — is a service name that will be saved to Tool's [output JSON](#output-data)
 
-- [Facebook](https://www.facebook.com) - `facebook` service
-- [Instagram](https://www.instagram.com/codex_team/) - `instagram` service
 - [YouTube](https://youtube.com) - `youtube` service
-- [Twitter](https://twitter.com/codex_team) - `twitter` service. (https://twitframe.com used for render)
-- [Twitch](https://twitch.tv) - `twitch-video` service for videos and `twitch-channel` for channels
-- [Miro](https://miro.com) - `miro` service
-- [Vimeo](https://vimeo.com) — `vimeo` service
-- [Gfycat](https://gfycat.com) — `gfycat` service
-- [Imgur](https://imgur.com) — `imgur` service
-- [Vine](https://vine.co) - `vine` service. The project is in archive state now
-- [Aparat](https://www.aparat.com) - `aparat` service
-- [Yandex.Music](https://music.yandex.ru) - `yandex-music-track` service for tracks, `yandex-music-album` for albums and `yandex-music-playlist` for playlists
-- [Coub](https://coub.com) — `coub` service
-- [CodePen](https://codepen.io) — `codepen` service
-- [Pinterest](https://www.pinterest.com) - `pinterest` service
-- [GitHub Gist](https://gist.github.com) - `github` service
+- [Twitch](https://twitch.tv) - `twitch-video` service for videos
 - 👇 Any other [customized service](#add-more-services)
-
-
 
 ## Installation
 
 Get the package
 
 ```shell
-yarn add @editorjs/embed
+$ npm i editorjs-embed-control
 ```
 
 Include module at your application
 
 ```javascript
-import Embed from '@editorjs/embed';
+import EmbedControl from 'editorjs-embed-control';
 ```
 
-Optionally, you can load this tool from CDN [JsDelivr CDN](https://cdn.jsdelivr.net/npm/@editorjs/embed@latest)
+### Load from CDN
+
+You can load a specific version of the package from jsDelivr CDN.
+
+Require this script on a page with Editor.js.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/editorjs-embed-control"></script>
+```
+
+### Download to your project's source dir
+
+1. Upload folder `dist` from repository
+2. Add `dist/embed.umd.js` file to your page.
 
 ## Usage
 
@@ -55,7 +54,7 @@ var editor = EditorJS({
 
   tools: {
     ...
-    embed: Embed,
+    embed: EmbedControl,
   },
 
   ...
@@ -75,11 +74,11 @@ var editor = EditorJS({
   tools: {
     ...
     embed: {
-      class: Embed,
+      class: EmbedControl,
       config: {
         services: {
           youtube: true,
-          coub: true
+          twitch-video: false
         }
       }
     },
@@ -128,7 +127,7 @@ var editor = EditorJS({
   tools: {
     ...
     embed: {
-      class: Embed,
+      class: EmbedControl,
       config: {
         services: {
           youtube: true,
@@ -150,7 +149,9 @@ var editor = EditorJS({
 });
 ```
 
-#### Inline Toolbar
+You can take the configs from the original project: https://github.com/editor-js/embed/blob/master/src/services.js
+
+### Inline Toolbar
 Editor.js provides useful inline toolbar. You can allow it\`s usage in the Embed Tool caption by providing `inlineToolbar: true`.
 
 ```javascript
@@ -160,11 +161,41 @@ var editor = EditorJS({
   tools: {
     ...
     embed: {
-      class: Embed,
+      class: EmbedControl,
       inlineToolbar: true
     },
   },
 
+  ...
+});
+```
+
+### Localization
+You can change the module name, labels and service names:
+```javascript
+var editor = EditorJS({
+  ...
+
+  tools: {
+    ...
+    embed: EmbedControl,
+  },
+  i18n: {
+    messages: {
+      toolNames: {
+        "Video": "Видео"
+      },
+      tools: {
+        embed: {
+          'Enter a link': 'Вставьте ссылку',
+          'Enter a caption': 'Подпись',
+          'Support services:': 'Поддерживаемые сервисы:',
+          'youtube': 'YouTube',
+          ...
+        }
+      }
+    }
+  },
   ...
 });
 ```
@@ -194,13 +225,3 @@ var editor = EditorJS({
   }
 }
 ```
-
-# About CodeX
-
-<img align="right" width="120" height="120" src="https://codex.so/public/app/img/codex-logo.svg" hspace="50">
-
-CodeX is a team of digital specialists around the world interested in building high-quality open source products on a global market. We are [open](https://codex.so/join) for young people who want to constantly improve their skills and grow professionally with experiments in cutting-edge technologies.
-
-| 🌐 | Join  👋  | Twitter | Instagram |
-| -- | -- | -- | -- |
-| [codex.so](https://codex.so) | [codex.so/join](https://codex.so/join) |[@codex_team](http://twitter.com/codex_team) | [@codex_team](http://instagram.com/codex_team) |
