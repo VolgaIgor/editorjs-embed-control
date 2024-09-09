@@ -96,8 +96,8 @@ class d {
    */
   get data() {
     if (this.element) {
-      const e = this.element.querySelector(`.${this.api.styles.input}`);
-      this._data.caption = e ? e.innerHTML : "";
+      const e = this.element.querySelector(`.${this.CSS.caption}`);
+      e && (this._data.caption = e.innerHTML);
     }
     return this._data;
   }

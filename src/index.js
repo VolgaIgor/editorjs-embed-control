@@ -93,9 +93,10 @@ export default class Embed {
    */
   get data() {
     if (this.element) {
-      const caption = this.element.querySelector(`.${this.api.styles.input}`);
-
-      this._data.caption = caption ? caption.innerHTML : '';
+      const captionElem = this.element.querySelector(`.${this.CSS.caption}`);
+      if (captionElem) {
+        this._data.caption = captionElem.innerHTML;
+      }
     }
 
     return this._data;
