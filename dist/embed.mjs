@@ -33,24 +33,32 @@ const v = {
       let e = [];
       return e.push("video=v" + l), e.push("parent=" + window.location.host), e.join("&");
     }
+  },
+  "vk-video": {
+    regex: /https?:\/\/vk.com\/video([-]?[\d]+)_([\d]+)/,
+    embedUrl: "https://vk.com/video_ext.php?<%= remote_id %>&hd=2",
+    html: '<iframe style="width: 100%;" height="320" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>',
+    height: 320,
+    width: 580,
+    id: (l) => `oid=${l[0]}&id=${l[1]}`
   }
 };
 function p(l, e, i) {
-  var t, r, s, n, a;
+  var t, r, s, n, o;
   e == null && (e = 100);
-  function o() {
+  function a() {
     var c = Date.now() - n;
-    c < e && c >= 0 ? t = setTimeout(o, e - c) : (t = null, i || (a = l.apply(s, r), s = r = null));
+    c < e && c >= 0 ? t = setTimeout(a, e - c) : (t = null, i || (o = l.apply(s, r), s = r = null));
   }
   var h = function() {
     s = this, r = arguments, n = Date.now();
     var c = i && !t;
-    return t || (t = setTimeout(o, e)), c && (a = l.apply(s, r), s = r = null), a;
+    return t || (t = setTimeout(a, e)), c && (o = l.apply(s, r), s = r = null), o;
   };
   return h.clear = function() {
     t && (clearTimeout(t), t = null);
   }, h.flush = function() {
-    t && (a = l.apply(s, r), s = r = null, clearTimeout(t), t = null);
+    t && (o = l.apply(s, r), s = r = null, clearTimeout(t), t = null);
   }, h;
 }
 p.debounce = p;
@@ -79,17 +87,17 @@ class d {
   set data(e) {
     if (!(e instanceof Object))
       throw Error("Embed Tool data should be object");
-    const { service: i, source: t, embed: r, width: s, height: n, caption: a = "" } = e;
+    const { service: i, source: t, embed: r, width: s, height: n, caption: o = "" } = e;
     this._data = {
       service: i || this.data.service,
       source: t || this.data.source,
       embed: r || this.data.embed,
       width: s || this.data.width,
       height: n || this.data.height,
-      caption: a || this.data.caption || ""
+      caption: o || this.data.caption || ""
     };
-    const o = this.element;
-    o && o.parentNode.replaceChild(this.render(), o);
+    const a = this.element;
+    a && a.parentNode.replaceChild(this.render(), a);
   }
   /**
    * @returns {EmbedData}
@@ -157,13 +165,13 @@ class d {
   getServiceByUrl(e) {
     for (let i in d.patterns)
       if (new RegExp(d.patterns[i]).test(e)) {
-        const { regex: r, embedUrl: s, width: n, height: a, id: o = (u) => u.shift() } = d.services[i], h = r.exec(e).slice(1), c = s.replace(/<%= remote_id %>/g, o(h));
+        const { regex: r, embedUrl: s, width: n, height: o, id: a = (u) => u.shift() } = d.services[i], h = r.exec(e).slice(1), c = s.replace(/<%= remote_id %>/g, a(h));
         return {
           service: i,
           source: e,
           embed: c,
           width: n,
-          height: a
+          height: o
         };
       }
     return null;
@@ -204,10 +212,10 @@ class d {
   static prepare({ config: e = {} }) {
     const { services: i = {} } = e;
     let t = Object.entries(v);
-    const r = Object.entries(i).filter(([n, a]) => typeof a == "boolean" && a === !0).map(([n]) => n), s = Object.entries(i).filter(([n, a]) => typeof a == "object").filter(([n, a]) => d.checkServiceConfig(a)).map(([n, a]) => {
-      const { regex: o, embedUrl: h, html: c, height: u, width: m, id: f } = a;
+    const r = Object.entries(i).filter(([n, o]) => typeof o == "boolean" && o === !0).map(([n]) => n), s = Object.entries(i).filter(([n, o]) => typeof o == "object").filter(([n, o]) => d.checkServiceConfig(o)).map(([n, o]) => {
+      const { regex: a, embedUrl: h, html: c, height: u, width: m, id: f } = o;
       return [n, {
-        regex: o,
+        regex: a,
         embedUrl: h,
         html: c,
         height: u,
@@ -215,7 +223,7 @@ class d {
         id: f
       }];
     });
-    r.length && (t = t.filter(([n]) => r.includes(n))), t = t.concat(s), d.services = t.reduce((n, [a, o]) => a in n ? (n[a] = Object.assign({}, n[a], o), n) : (n[a] = o, n), {}), d.patterns = t.reduce((n, [a, o]) => (n[a] = o.regex, n), {});
+    r.length && (t = t.filter(([n]) => r.includes(n))), t = t.concat(s), d.services = t.reduce((n, [o, a]) => o in n ? (n[o] = Object.assign({}, n[o], a), n) : (n[o] = a, n), {}), d.patterns = t.reduce((n, [o, a]) => (n[o] = a.regex, n), {});
   }
   /**
    * Check if Service config is valid
@@ -224,9 +232,9 @@ class d {
    * @returns {boolean}
    */
   static checkServiceConfig(e) {
-    const { regex: i, embedUrl: t, html: r, height: s, width: n, id: a } = e;
-    let o = i && i instanceof RegExp && t && typeof t == "string" && r && typeof r == "string";
-    return o = o && (a !== void 0 ? a instanceof Function : !0), o = o && (s !== void 0 ? Number.isFinite(s) : !0), o = o && (n !== void 0 ? Number.isFinite(n) : !0), o;
+    const { regex: i, embedUrl: t, html: r, height: s, width: n, id: o } = e;
+    let a = i && i instanceof RegExp && t && typeof t == "string" && r && typeof r == "string";
+    return a = a && (o !== void 0 ? o instanceof Function : !0), a = a && (s !== void 0 ? Number.isFinite(s) : !0), a = a && (n !== void 0 ? Number.isFinite(n) : !0), a;
   }
   /**
    * Get Tool toolbox settings

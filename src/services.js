@@ -35,7 +35,7 @@ export default {
             return null;
           }
 
-          if (value === 'LL' 
+          if (value === 'LL'
             || value.startsWith('RDMM')
             || value.startsWith('FL')) {
             return null;
@@ -62,4 +62,12 @@ export default {
       return params.join('&');
     },
   },
+  "vk-video": {
+    regex: /https?:\/\/vk.com\/video([-]?[\d]+)_([\d]+)/,
+    embedUrl: 'https://vk.com/video_ext.php?<%= remote_id %>&hd=2',
+    html: "<iframe style=\"width: 100%;\" height=\"320\" allow=\"autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;\" frameborder=\"0\" allowfullscreen></iframe>",
+    height: 320,
+    width: 580,
+    id: (ids) => `oid=${ids[0]}&id=${ids[1]}`
+  }
 };
